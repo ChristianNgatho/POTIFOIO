@@ -1,0 +1,31 @@
+* {
+    text-align: center;
+}
+
+h1 {
+    font-style: italic;
+    font-weight: 10px;
+    color: red
+}
+body{
+    background-color: black;
+     color: aqua;
+}
+
+
+body {
+    background-image: url("range\ rover.jfif");
+}
+
+button {
+    background-color: rgb(211, 35, 35);
+    color: black;
+    border: -stye;
+
+}
+submit{
+    background-color: aqua;
+    width: 30px; ;
+    height: 30px; ;
+    border-radius: 2rem;
+}

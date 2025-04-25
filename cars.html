@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyCar Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<script>
+let cars = JSON.parse(localStorage.getItem('myCars')) || [];
+
+function addCar() {
+  const name = document.getElementById('carName').value;
+  const year = document.getElementById('carYear').value;
+
+  if (!name || !year) return alert('Please enter car name and year.');
+
+  const newCar = { name, year };
+  cars.push(newCar);
+  localStorage.setItem('myCars', JSON.stringify(cars));
+  document.getElementById('carName').value = '';
+  document.getElementById('carYear').value = '';
+  renderGarage();
+}
+
+function renderGarage() {
+  const garageDiv = document.getElementById('garage');
+  garageDiv.innerHTML = '';
+  cars.forEach((car, index) => {
+    garageDiv.innerHTML += `
+      <div class="stat">
+        <strong>${car.name}</strong> (${car.year})
+        <button onclick="removeCar(${index})" style="margin-top: 10px;">Remove</button>
+      </div>`;
+  });
+}
+
+function removeCar(index) {
+  cars.splice(index, 1);
+  localStorage.setItem('myCars', JSON.stringify(cars));
+  renderGarage();
+}
+
+function simulateDrive() {
+  const speed = Math.floor(Math.random() * 120);
+  const fuel = Math.max(0, 100 - Math.floor(Math.random() * 50));
+  const battery = Math.max(0, 100 - Math.floor(Math.random() * 30));
+  const temp = 70 + Math.floor(Math.random() * 30);
+
+  document.getElementById('speed').textContent = speed;
+  document.getElementById('fuel').textContent = fuel;
+  document.getElementById('battery').textContent = battery;
+  document.getElementById('temp').textContent = temp;
+}
+</script>
+<style>
+border{border: #1e1e1e;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: #121212;
+    color: #fff;
+  }
+  
+  .app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  input, button {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  input {
+    background: #1e1e1e;
+    color: white;
+  }
+  
+  button {
+    background-color: #00b894;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #019875;
+  }
+  
+  .car-list, .car-stats {
+    margin-top: 30px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .stat {
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+</style>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>🚗 MyCar Dashboard</h1>
+    </header>
+
+    <main>
+      <section class="add-car">
+        <h2>Add Your Car</h2>
+        <input type="text" id="carName" placeholder="Car Name (e.g., Tesla Model 3)" />
+        <input type="number" id="carYear" placeholder="Year" />
+        <button onclick="addCar()">Add Car</button>
+      </section>
+
+      <section class="car-list" id="carList">
+        <h2>Your Garage</h2>
+        <div id="garage"></div>
+      </section>
+
+      <section class="car-stats">
+        <h2>Live Stats</h2>
+        <div class="stats-grid">
+          <div class="stat"><strong>Speed:</strong> <span id="speed">0</span> km/h</div>
+          <div class="stat"><strong>Fuel:</strong> <span id="fuel">100</span>%</div>
+          <div class="stat"><strong>Battery:</strong> <span id="battery">100</span>%</div>
+          <div class="stat"><strong>Engine Temp:</strong> <span id="temp">70</span>°C</div>
+        </div>
+        <button onclick="simulateDrive()">Simulate Drive</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
